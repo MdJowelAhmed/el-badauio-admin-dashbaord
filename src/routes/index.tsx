@@ -19,7 +19,8 @@ import AboutUs from "../components/ui/Settings/AboutUs";
 import OfferList from "../components/ui/Settings/OfferList";
 import ProjectManagement from "@/Pages/Dashboard/ProjectManagement";
 import ProjectManagementDetails from "@/Pages/Dashboard/ProjectManagementDetails";
-import ServiceManagement from "@/Pages/Dashboard/ServiceManagement";
+import Categories from "@/Pages/Dashboard/serviceManagement/Categories";
+import Subcategories from "@/Pages/Dashboard/serviceManagement/Subcategories";
 
 const router = createBrowserRouter([
   {
@@ -44,8 +45,12 @@ const router = createBrowserRouter([
         element: <ProjectManagementDetails />,
       },
       {
-        path: "/service-management",
-        element: <ServiceManagement />,
+        path: "/service-management/categories",
+        element: <Categories />,
+      },
+      {
+        path: "/service-management/subcategories",
+        element: <Subcategories />,
       },
       {
         path: "/users",

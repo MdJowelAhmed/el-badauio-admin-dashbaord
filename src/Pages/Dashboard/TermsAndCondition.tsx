@@ -1,7 +1,6 @@
 import { useState, useRef } from "react";
 import JoditEditor from "jodit-react";
 import Title from "../../components/common/Title";
-import toast from "react-hot-toast";
 import rentMeLogo from "../../assets/navLogo.png";
 
 const TermsAndCondition = () => {
@@ -18,8 +17,6 @@ const TermsAndCondition = () => {
 
   // const [updateTermsAndConditions] = useUpdateTermsAndConditionsMutation();
 
-  const termsAndCondition = [];
-
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -34,6 +31,7 @@ const TermsAndCondition = () => {
     const data = {
       content: content,
     };
+    console.log(data);
 
     // try {
     //   const res = await updateTermsAndConditions(data).unwrap();

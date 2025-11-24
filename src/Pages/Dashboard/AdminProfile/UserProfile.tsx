@@ -3,7 +3,6 @@ import { Button, Form, Input } from "antd";
 import { BiLeftArrowAlt } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { MdOutlineAddPhotoAlternate } from "react-icons/md";
-import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import logo from "../../../assets/randomProfile2.jpg";
 import rentMeLogo from "../../../assets/navLogo.png";

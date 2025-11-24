@@ -9,7 +9,6 @@ import logo from "../../assets/logo.png";
 import { FaUsers } from "react-icons/fa6";
 import { RiDashboardHorizontalFill } from "react-icons/ri";
 import { BiSolidCategory } from "react-icons/bi";
-import { MdCategory } from "react-icons/md";
 
 interface MenuItem {
   key: string;
@@ -50,9 +49,33 @@ const Sidebar = () => {
       label: <Link to="/project-management">Project Management</Link>,
     },
     {
-      key: "/service-management",
+      key: "service-management",
       icon: <BiSolidCategory size={24} />,
-      label: <Link to="/service-management">Service Management</Link>,
+      label: "Service Management",
+      children: [
+        {
+          key: "/service-management/categories",
+          label: (
+            <Link
+              to="/service-management/categories"
+              className="text-white hover:text-white"
+            >
+              Categories
+            </Link>
+          ),
+        },
+        {
+          key: "/service-management/subcategories",
+          label: (
+            <Link
+              to="/service-management/subcategories"
+              className="text-white hover:text-white"
+            >
+              Subcategories
+            </Link>
+          ),
+        },
+      ],
     },
 
     {

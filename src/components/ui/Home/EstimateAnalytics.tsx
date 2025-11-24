@@ -29,7 +29,7 @@ const EstimateAnalytics = () => {
       style={{ width: "100%", height: 350 }}
       className="px-5 py-3 bg-white rounded-2xl"
     >
-      <h4 className="mb-5 mt-4 text-xl font-semibold">Estimate Statistics</h4>
+      <h4 className="mb-5 mt-4 text-xl font-semibold">Estimate Analytics</h4>
 
       <ResponsiveContainer width="100%" height={250}>
         <AreaChart
