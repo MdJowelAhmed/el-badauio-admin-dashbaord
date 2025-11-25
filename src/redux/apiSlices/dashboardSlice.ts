@@ -11,22 +11,24 @@ const dashboardSlice = api.injectEndpoints({
       },
       providesTags: ["AdminData"],
     }),
-    overAllState: builder.query({
-      query: ({ range }) => {
-        return {
-          method: "GET",
-          url: `/dashboard/overall-stat?range=${range}`,
-        };
-      },
-    }),
-
-    bestServices: builder.query({
+    projectStatusFunnel: builder.query({
       query: () => {
         return {
           method: "GET",
-          url: "/dashboard/best-services",
+          url: `/analytics/project-status`,
         };
       },
+      providesTags: ["AdminData"],
+    }),
+
+    recentProject: builder.query({
+      query: () => {
+        return {
+          method: "GET",
+          url: "/analytics/recent-project",
+        };
+      },
+      providesTags: ["AdminData"],
     }),
 
     vendorsConversionData: builder.query({
@@ -36,13 +38,14 @@ const dashboardSlice = api.injectEndpoints({
           url: "/dashboard/vendor-order-conversion-rate",
         };
       },
+      providesTags: ["AdminData"],
     }),
   }),
 });
 
 export const {
   useGeneralStatsQuery,
-  useOverAllStateQuery,
-  useBestServicesQuery,
+  useProjectStatusFunnelQuery,
+  useRecentProjectQuery,
   useVendorsConversionDataQuery,
 } = dashboardSlice;

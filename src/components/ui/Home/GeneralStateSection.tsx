@@ -6,7 +6,7 @@ import { useGeneralStatsQuery } from "@/redux/apiSlices/dashboardSlice";
 
 
 const GeneralStateSection = () => {
-  const { data  } = useGeneralStatsQuery();
+  const { data  } = useGeneralStatsQuery(null);
   console.log("data", data)
 
   // const generalState = {

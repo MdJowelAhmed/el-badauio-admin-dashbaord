@@ -1,6 +1,7 @@
 import { Button, ConfigProvider, Table } from "antd";
 import { Link } from "react-router-dom";
 import moment from "moment";
+import { useRecentProjectQuery } from "@/redux/apiSlices/dashboardSlice";
 
 interface Order {
   projectId: string;
@@ -13,6 +14,9 @@ interface Order {
 }
 
 const RecentActiveProject = () => {
+const {data:recentProject}=useRecentProjectQuery(null)
+console.log("Recent Project", recentProject);
+
   // Dummy data for salon orders
   const dummyOrders: Order[] = [
     {
@@ -62,7 +66,20 @@ const RecentActiveProject = () => {
     key: order.projectId || index.toString(),
   }));
 
-  const columns = [
+  const formattedData =
+    recentProject?.data?.map((item: any) => ({
+      key: item._id,
+      projectId: item.projectCode,
+      clientName: `${item?.userId?.firstName || ""} ${
+        item?.userId?.lastName || ""
+      }`,
+      artisan: "", // Backend doesn't provide artisan
+      estimatedAmount: item.totalWithVat,
+      status: item.status?.toLowerCase(),
+      createdAt: item.createdAt || null, // API doesn't include createdAt
+    })) || [];
+
+ const columns = [
     {
       title: "Project Number",
       dataIndex: "projectId",
@@ -76,6 +93,7 @@ const RecentActiveProject = () => {
     {
       title: "Artisan",
       dataIndex: "artisan",
+      render: (text: string) => text || "Not Assign yet",
       key: "artisan",
     },
     {
@@ -93,32 +111,40 @@ const RecentActiveProject = () => {
           accepted: { label: "Accepted", color: "green" },
           pending: { label: "Pending", color: "orange" },
           completed: { label: "Completed", color: "blue" },
+          new: { label: "New", color: "#f59e0b" },
         };
+
+        const current = statusMap[status] || {
+          label: status,
+          color: "gray",
+        };
+
         return (
           <span
-            className={`px-2 py-1 rounded-full text-white font-bold`}
-            style={{ backgroundColor: statusMap[status].color }}
+            className="px-2 py-1 rounded-full text-white font-bold"
+            style={{ backgroundColor: current.color }}
           >
-            {statusMap[status].label}
+            {current.label}
           </span>
         );
       },
-    },
-    {
-      title: "Order Date",
-      dataIndex: "createdAt",
-      key: "createdAt",
-      render: (date: string) => moment(date).format("Do MMM, YYYY"),
-    },
+    }
+    // {
+    //   title: "Order Date",
+    //   dataIndex: "createdAt",
+    //   key: "createdAt",
+    //   render: (date: string) =>
+    //     date ? moment(date).format("Do MMM, YYYY") : "N/A",
+    // },
   ];
 
   return (
-    <div className="border bg-white h-[350px] p-5 rounded-2xl">
+    <div className="border bg-white  p-5 rounded-2xl">
       <div className="flex items-center justify-between mb-2">
         <h4 className="mb-2 text-xl font-semibold">Recent Active Projects</h4>
-        <Link to={"/analytics"}>
+        {/* <Link to={"/analytics"}>
           <Button className="bg-secondary border-secondary">View All</Button>
-        </Link>
+        </Link> */}
       </div>
       <ConfigProvider
         theme={{
@@ -129,7 +155,7 @@ const RecentActiveProject = () => {
           },
         }}
       >
-        <Table columns={columns} pagination={false} dataSource={data} />
+        <Table columns={columns} pagination={false} dataSource={formattedData || []} />
       </ConfigProvider>
     </div>
   );
