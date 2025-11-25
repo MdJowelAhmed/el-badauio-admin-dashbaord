@@ -2,17 +2,22 @@ import { FaUsers } from "react-icons/fa6";
 import { BiBarChartAlt2 } from "react-icons/bi";
 import { RiCalendarTodoFill, RiClipboardFill } from "react-icons/ri";
 import salongoLogo from "../../../assets/salon-go-logo.png";
+import { useGeneralStatsQuery } from "@/redux/apiSlices/dashboardSlice";
+
 
 const GeneralStateSection = () => {
-  const generalState = {
-    data: {
-      totalActiveUsers: 1500,
-      newSignups: 120,
-      totalActiveVendors: 45,
-      totalCompletedOrders: 320,
-      totalServices: 75,
-    },
-  };
+  const { data  } = useGeneralStatsQuery();
+  console.log("data", data)
+
+  // const generalState = {
+  //   data: {
+  //     totalActiveUsers: 1500,
+  //     newSignups: 120,
+  //     totalActiveVendors: 45,
+  //     totalCompletedOrders: 320,
+  //     totalServices: 75,
+  //   },
+  // };
 
   const isLoading = false;
 
@@ -24,12 +29,12 @@ const GeneralStateSection = () => {
     );
   }
 
-  const state = generalState?.data;
+  // const state = generalState?.data;
 
   const cards = [
     {
       title: "Total Estimate projects",
-      value: state?.totalActiveUsers ?? 0,
+      value: data?.data?.totalProjects ?? 0,
       prefix: "+",
       icon: BiBarChartAlt2,
       main: "#3f51b5",
@@ -37,25 +42,25 @@ const GeneralStateSection = () => {
     },
     {
       title: "Active Projects",
-      value: state?.newSignups ?? 0,
+      value: data?.data?.activeProjects ?? 0,
       prefix: "+",
       icon: RiCalendarTodoFill,
       main: "#f59e0b",
       light: "#fde68a",
     },
     {
-      title: "New Clients (30D)",
-      value: state?.totalActiveVendors ?? 0,
+      title: "Total Users",
+      value: data?.data?.totalUsers ?? 0,
       prefix: "+ ",
       icon: FaUsers,
       main: "#facc15",
       light: "#fef08a",
     },
     {
-      title: "Overdue Estimates",
-      value: state?.totalCompletedOrders ?? 0,
+      title: "New Clients (30D)",
+      value: data?.data?.clientLast30Days ?? 0,
       prefix: "",
-      icon: RiClipboardFill,
+      icon: FaUsers,
       main: "#f43f5e",
       light: "#fecdd3",
     },
