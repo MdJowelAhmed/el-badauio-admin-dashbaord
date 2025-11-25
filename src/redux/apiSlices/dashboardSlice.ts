@@ -6,9 +6,10 @@ const dashboardSlice = api.injectEndpoints({
       query: () => {
         return {
           method: "GET",
-          url: "/dashboard/general-stat",
+          url: "/analytics/overview",
         };
       },
+      providesTags: ["AdminData"],
     }),
     overAllState: builder.query({
       query: ({ range }) => {
