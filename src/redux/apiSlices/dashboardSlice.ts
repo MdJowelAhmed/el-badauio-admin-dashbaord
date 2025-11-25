@@ -31,11 +31,11 @@ const dashboardSlice = api.injectEndpoints({
       providesTags: ["AdminData"],
     }),
 
-    vendorsConversionData: builder.query({
-      query: () => {
+    totalEstimates: builder.query({
+      query: ({year}) => {
         return {
           method: "GET",
-          url: "/dashboard/vendor-order-conversion-rate",
+          url: `/analytics/total-estimates?year=${year}`,
         };
       },
       providesTags: ["AdminData"],
@@ -47,5 +47,5 @@ export const {
   useGeneralStatsQuery,
   useProjectStatusFunnelQuery,
   useRecentProjectQuery,
-  useVendorsConversionDataQuery,
+  useTotalEstimatesQuery,
 } = dashboardSlice;

@@ -73,7 +73,9 @@ console.log("Recent Project", recentProject);
       clientName: `${item?.userId?.firstName || ""} ${
         item?.userId?.lastName || ""
       }`,
-      artisan: "", // Backend doesn't provide artisan
+      artisan: item?.artisanId ?` ${item?.artisanId?.firstName || ""} ${
+        item?.artisanId?.lastName || ""
+      }  `:  "Not Assign yet", // Backend doesn't provide artisan
       estimatedAmount: item.totalWithVat,
       status: item.status?.toLowerCase(),
       createdAt: item.createdAt || null, // API doesn't include createdAt
