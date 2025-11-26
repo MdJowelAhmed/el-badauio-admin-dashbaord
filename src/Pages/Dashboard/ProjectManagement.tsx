@@ -43,6 +43,7 @@ const StatusUpdateCell = ({
   currentStatus: "NEW" | "COMPLETED" | "ACCEPTED" 
 }) => {
   const [updateProject, { isLoading }] = useUpdateProjectManagementMutation();
+  const bgColor = statusColor[currentStatus];
 
   const handleStatusChange = async (newStatus: "NEW" | "COMPLETED" | "ACCEPTED") => {
     try {
@@ -58,17 +59,36 @@ const StatusUpdateCell = ({
   };
 
   return (
-    <Select
-      className="w-full"
-      value={currentStatus}
-      onChange={handleStatusChange}
-      loading={isLoading}
-      options={statusOptions}
-      style={{
-        backgroundColor: statusColor[currentStatus],
-        color: "#fff",
-      }}
-    />
+    <>
+      <style>{`
+        .status-select-${projectId} .ant-select-selector {
+          background-color: ${bgColor} !important;
+          color: #fff !important;
+          border: none !important;
+          box-shadow: none !important;
+          font-weight: 500;
+          padding: 4px 11px !important;
+        }
+        .status-select-${projectId} .ant-select-arrow {
+          color: #fff !important;
+        }
+        .status-select-${projectId}:hover .ant-select-selector,
+        .status-select-${projectId}.ant-select-focused .ant-select-selector,
+        .status-select-${projectId}.ant-select-open .ant-select-selector {
+          background-color: ${bgColor} !important;
+          border: none !important;
+          box-shadow: none !important;
+        }
+      `}</style>
+      <Select
+        className={`w-full status-select-${projectId}`}
+        value={currentStatus}
+        onChange={handleStatusChange}
+        loading={isLoading}
+        options={statusOptions}
+        popupMatchSelectWidth={false}
+      />
+    </>
   );
 };
 
