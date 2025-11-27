@@ -363,6 +363,10 @@ const Users = () => {
           setBlockOpen(false);
           setSelected(null);
         }}
+        okButtonProps={{
+          type: "primary",
+          className: "bg-[#3f51b5] text-white px-4 py-[15px] rounded-md",
+        }}
       >
         Are you sure you want to {selected?.status === "ACTIVE" ? "block" : "activate"} this user?
       </Modal>
