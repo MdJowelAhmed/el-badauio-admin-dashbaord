@@ -2,7 +2,7 @@ import { api } from "../api/baseApi";
 
 const userSlice = api.injectEndpoints({
   endpoints: (builder) => ({
-    admin: builder.query({
+    getAllUsers: builder.query({
       query: (args) => {
         const params = new URLSearchParams();
         if(args) {
@@ -13,22 +13,25 @@ const userSlice = api.injectEndpoints({
         return {
           method: "GET",
           url: "/admin/users",
+          params,
         };
       },
     }),
-    users: builder.query({
-      query: () => {
+    userStatusUpdate: builder.mutation({
+      query: ({id, status}) => {
         return {
-          method: "GET",
+          method: "PATCH",
           url: "/user",
+          body: {id, status},
         };
       },
     }),
-    vendors: builder.query({
-      query: () => {
+    createArtisans: builder.mutation({
+      query: (data) => {
         return {
-          method: "GET",
-          url: "/user?role=VENDOR",
+          method: "POST",
+          url: "/admin/artisan",
+          body: data,
         };
       },
     }),
@@ -44,8 +47,8 @@ const userSlice = api.injectEndpoints({
 });
 
 export const {
-  useAdminQuery,
-  useUsersQuery,
-  useVendorsQuery,
+  useGetAllUsersQuery,
+  useUserStatusUpdateMutation,
+  useCreateArtisansMutation,
   useUserByIdQuery,
 } = userSlice;
