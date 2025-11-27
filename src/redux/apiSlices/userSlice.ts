@@ -26,6 +26,17 @@ const userSlice = api.injectEndpoints({
         };
       },
     }),
+
+    updateArtisanInfo:builder.mutation({
+      query: ({id, ...data}) => {
+        return {
+          method: "PATCH",
+          url: `/admin/artisan/${id}`,
+          body: data,
+        };
+      },
+    }),
+
     createArtisans: builder.mutation({
       query: (data) => {
         return {
