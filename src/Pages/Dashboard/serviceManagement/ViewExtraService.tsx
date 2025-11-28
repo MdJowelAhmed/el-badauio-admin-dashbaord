@@ -189,7 +189,7 @@ const ViewExtraServices = ({ open, onClose, categoryId }: Props) => {
             Close
           </Button>,
         ]}
-        width={900}
+        width={850}
       >
         {isLoading ? (
           <div className="flex justify-center py-12">

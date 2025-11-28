@@ -20,9 +20,9 @@ interface ResetPasswordData {
 }
 
 interface ChangePasswordData {
-  current_password: string;
-  new_password: string;
-  confirm_password: string;
+  currentPassword: string;
+  newPassword: string;
+  confirmPassword: string;
 }
 
 interface UpdateProfileData {
