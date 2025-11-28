@@ -1,144 +1,186 @@
-import { Button, Tag, Descriptions } from "antd";
-import { useMemo } from "react";
+import { useSingleProjectManagementQuery, useUpdateProjectManagementMutation } from "@/redux/apiSlices/projectManagementApi";
+import { Button, Tag, Descriptions, Spin, Select, InputNumber, message, Modal } from "antd";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
+// import {
+//   useSingleProjectManagementQuery,
+//   useUpdateProjectManagementMutation,
+// } from "../api/projectManagementApi";
 
-type Status = "Accepted" | "Pending Signature" | "Drafting" | "New Inquiry";
-
-type Details = {
-  id: string;
-  clientName: string;
-  status: Status;
-  financial: {
-    quoteValue: number;
-    platformFeePercent: number;
-    invoicesIssued: string;
-  };
-  project: {
-    serviceType: string;
-    projectAddress: string;
-    startDate: string;
-    lastActivity: string;
-    internalNotes: string;
-  };
-  client: {
-    id: string;
-    name: string;
-    email: string;
-    phone: string;
-    totalProjects: number;
-  };
-  artisan: {
-    id: string;
-    name: string;
-    focus: string;
-    email: string;
-    phone: string;
-    totalProjects: number;
-  };
-};
+type Status = "NEW" | "COMPLETED" | "ACCEPTED";
 
 const statusColor: Record<Status, string> = {
-  Accepted: "#14b8a6",
-  "Pending Signature": "#f59e0b",
-  Drafting: "#a78bfa",
-  "New Inquiry": "#3b82f6",
+  ACCEPTED: "#14b8a6",
+  COMPLETED: "#f59e0b",
+  NEW: "#3b82f6",
 };
 
-const fake: Record<string, Details> = {
-  "PRJ-1200": {
-    id: "PRJ-1200",
-    clientName: "Md Ibrahim Kholil",
-    status: "Accepted",
-    financial: {
-      quoteValue: 5510.04,
-      platformFeePercent: 15,
-      invoicesIssued: "1/2",
-    },
-    project: {
-      serviceType: "Laying Floor Covering",
-      projectAddress: "48/1 Mohakhali Dhaka 1212, Bangladesh",
-      startDate: "2025-10-21",
-      lastActivity: "Quote Signed By Client",
-      internalNotes:
-        "Client is very specific about tile pattern. Confirm supply order is correct.",
-    },
-    client: {
-      id: "#4285",
-      name: "Md Ibrahim Kholil",
-      email: "mdibukholl123@gmail.com",
-      phone: "+33 12 34 56 78",
-      totalProjects: 3,
-    },
-    artisan: {
-      id: "#A402",
-      name: "Benjamin",
-      focus: "Laying Floor Covering",
-      email: "Benjamin123@gmail.com",
-      phone: "+33 12 34 56 78",
-      totalProjects: 3,
-    },
-  },
-};
+const statusOptions = [
+  { label: "New", value: "NEW" as const },
+  { label: "Accepted", value: "ACCEPTED" as const },
+  { label: "Completed", value: "COMPLETED" as const },
+];
 
 const currency = (n: number, c: string = "EUR") =>
   new Intl.NumberFormat("en-US", { style: "currency", currency: c }).format(n);
 
 const ProjectManagementDetails = () => {
   const { id } = useParams();
+  const { data, isLoading } = useSingleProjectManagementQuery(id || "", {
+    skip: !id,
+  });
+  
+  const [updateProject, { isLoading: isUpdating }] = useUpdateProjectManagementMutation();
 
-  const details = useMemo<Details>(() => {
-    const base = fake[id ?? "PRJ-1200"] ?? fake["PRJ-1200"];
-    return base;
-  }, [id]);
+  const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
+  const [isVatModalOpen, setIsVatModalOpen] = useState(false);
+  const [selectedStatus, setSelectedStatus] = useState<Status | undefined>();
+  const [totalWithoutVat, setTotalWithoutVat] = useState<number | undefined>();
+  const [totalWithVat, setTotalWithVat] = useState<number | undefined>();
 
-  const fee =
-    (details.financial.quoteValue * details.financial.platformFeePercent) / 100;
-  const net = details.financial.quoteValue - fee;
+  const details = data?.data;
+
+  // Open status modal with current status as default
+  const openStatusModal = () => {
+    if (details) {
+      setSelectedStatus(details.status);
+    }
+    setIsStatusModalOpen(true);
+  };
+
+  // Open VAT modal with current values as default
+  const openVatModal = () => {
+    if (details) {
+      setTotalWithoutVat(details.totalWithoutVat);
+      setTotalWithVat(details.totalWithVat);
+    }
+    setIsVatModalOpen(true);
+  };
+
+  const handleStatusUpdate = async () => {
+    if (!id || !selectedStatus) return;
+    
+    try {
+      await updateProject({
+        id,
+        status: selectedStatus,
+      }).unwrap();
+      
+      message.success("Status updated successfully");
+      setIsStatusModalOpen(false);
+    } catch (error) {
+      message.error("Failed to update status");
+    }
+  };
+
+  const handleVatUpdate = async () => {
+    if (!id) return;
+    
+    const updateData: any = {};
+    if (totalWithoutVat !== undefined) updateData.totalWithoutVat = totalWithoutVat;
+    if (totalWithVat !== undefined) updateData.totalWithVat = totalWithVat;
+    
+    if (Object.keys(updateData).length === 0) {
+      message.warning("Please enter at least one value");
+      return;
+    }
+    
+    try {
+      await updateProject({
+        id,
+        ...updateData,
+      }).unwrap();
+      
+      message.success("Values updated successfully");
+      setIsVatModalOpen(false);
+      setTotalWithoutVat(undefined);
+      setTotalWithVat(undefined);
+    } catch (error) {
+      message.error("Failed to update values");
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-[400px]">
+        <Spin size="large" />
+      </div>
+    );
+  }
+
+  if (!details) {
+    return (
+      <div className="text-center py-8 text-gray-500">
+        Project not found
+      </div>
+    );
+  }
+
+  const clientName = `${details.firstName} ${details.lastName}`;
+  const artisanName = details.artisanId
+    ? `${details.artisanId.firstName} ${details.artisanId.lastName}`
+    : "Not assigned";
 
   return (
     <div className="space-y-4">
       <div className="bg-white rounded-2xl p-4 shadow-sm flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-[#210630]">
-            {details.clientName}
+            {details.projectCode}
           </h1>
-          <div className="mt-2">
-            <Tag color={statusColor[details.status]} style={{ color: "#fff" }}>
+          {/* <div className="mt-2">
+            <Tag color={statusColor[details.status as Status]} style={{ color: "#fff" }}>
               {details.status}
             </Tag>
-          </div>
+          </div> */}
         </div>
         <div className="flex items-center gap-3">
-          <Button type="primary">Send Message</Button>
+          <Button  type="default" onClick={openStatusModal} className="py-[22px]">
+            Update Status
+          </Button>
+          <Button type="default" onClick={openVatModal} className="py-[22px]">
+            Update Values
+          </Button>
+
+
+          {/* <Button type="primary">Send Message</Button> */}
+
+            <Button 
+            type="default"
+            onClick={() => {
+              if (details?.email) {
+                window.location.href = `mailto:${details.email}?subject=Regarding Project ${details.projectCode}`;
+              }
+            }}
+            className="py-[22px]"
+          >
+            Send Message
+          </Button>
         </div>
       </div>
 
       <div className="flex w-full gap-4">
-        <div className="bg-white w-[67%] rounded-2xl p-4 shadow-sm md:col-span-2">
+        <div className="bg-white w-[67%] rounded-2xl p-4 shadow-sm">
           <h3 className="text-lg font-semibold text-[#210630]">
             Financial Summary
           </h3>
-          <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="mt-4 grid grid-cols-2 md:grid-cols-3 gap-4">
             <div>
-              <div className="text-sm text-gray-600">Quote Value</div>
+              <div className="text-sm text-gray-600">Total Without VAT</div>
               <div className="text-base font-semibold">
-                {currency(details.financial.quoteValue)}
+                {details.totalWithoutVat ? currency(details.totalWithoutVat) : "—"}
               </div>
             </div>
             <div>
-              <div className="text-sm text-gray-600">
-                Platform Fee ({details.financial.platformFeePercent}%)
-              </div>
-              <div className="text-base font-semibold">{currency(fee)}</div>
-            </div>
-            <div>
-              <div className="text-sm text-gray-600">Net To Artisan</div>
-              <div className="text-base font-semibold">{currency(net)}</div>
-            </div>
-            <div>
-              <div className="text-sm text-gray-600">Invoices Issued</div>
+              <div className="text-sm text-gray-600">Total With VAT</div>
               <div className="text-base font-semibold">
-                {details.financial.invoicesIssued}
+                {currency(details.totalWithVat)}
+              </div>
+            </div>
+            <div>
+              <div className="text-sm text-gray-600">Created At</div>
+              <div className="text-base font-semibold">
+                {new Date(details.createdAt).toLocaleDateString()}
               </div>
             </div>
           </div>
@@ -146,67 +188,130 @@ const ProjectManagementDetails = () => {
 
         <div className="bg-white w-[33%] rounded-2xl p-4 shadow-sm">
           <h3 className="text-lg font-semibold text-[#210630]">
-            Client : {details.client.name}
+            Client: {clientName}
           </h3>
           <div className="mt-3 space-y-2 text-sm text-gray-700">
-            <div>ID : {details.client.id}</div>
-            <div>Email : {details.client.email}</div>
-            <div>Phone : {details.client.phone}</div>
-            <div>
-              Total Projects :{" "}
-              {String(details.client.totalProjects).padStart(2, "0")}
-            </div>
+            <div>Email: {details.email}</div>
+            <div>Status: {details.status}</div>
           </div>
         </div>
       </div>
 
       <div className="flex w-full gap-4">
-        <div className="grid w-[67%] gap-4">
-          <div className="bg-white rounded-2xl p-4 shadow-sm md:col-span-2">
-            <h3 className="text-lg font-semibold text-[#210630]">
-              Project Details
-            </h3>
-            <div className="mt-4">
-              <Descriptions column={1} labelStyle={{ width: 180 }}>
-                <Descriptions.Item label="Service Type">
-                  {details.project.serviceType}
-                </Descriptions.Item>
-                <Descriptions.Item label="Project Address">
-                  {details.project.projectAddress}
-                </Descriptions.Item>
-                <Descriptions.Item label="Start Date">
-                  {details.project.startDate}
-                </Descriptions.Item>
-                <Descriptions.Item label="Last Activity">
-                  {details.project.lastActivity}
-                </Descriptions.Item>
-              </Descriptions>
-              <div className="mt-4">
-                <div className="text-sm text-gray-600">Internal Notes</div>
-                <div className="mt-2 bg-gray-100 border border-gray-200 rounded-md p-3 text-sm text-gray-700">
-                  {details.project.internalNotes}
-                </div>
-              </div>
-            </div>
+        <div className="bg-white w-[67%] rounded-2xl p-4 shadow-sm">
+          <h3 className="text-lg font-semibold text-[#210630]">
+            Project Details
+          </h3>
+          <div className="mt-4">
+            <Descriptions column={1} labelStyle={{ width: 180 }}>
+              <Descriptions.Item label="Project Code">
+                {details.projectCode}
+              </Descriptions.Item>
+              <Descriptions.Item label="Client Name">
+                {clientName}
+              </Descriptions.Item>
+              <Descriptions.Item label="Email">
+                {details.email}
+              </Descriptions.Item>
+              <Descriptions.Item label="Status">
+                <Tag color={statusColor[details.status as Status]} style={{ color: "#fff" }}>
+                  {details.status}
+                </Tag>
+              </Descriptions.Item>
+            </Descriptions>
           </div>
         </div>
 
         <div className="bg-white w-[33%] rounded-2xl p-4 shadow-sm">
           <h3 className="text-lg font-semibold text-[#210630]">
-            Artisan: {details.artisan.name}
+            Artisan: {artisanName}
           </h3>
           <div className="mt-3 space-y-2 text-sm text-gray-700">
-            <div>ID : {details.artisan.id}</div>
-            <div>Service Focus : {details.artisan.focus}</div>
-            <div>Email : {details.artisan.email}</div>
-            <div>Phone : {details.artisan.phone}</div>
-            <div>
-              Total Projects :{" "}
-              {String(details.artisan.totalProjects).padStart(2, "0")}
-            </div>
+            {details.artisanId ? (
+              <>
+                <div>ID: {details.artisanId._id}</div>
+                <div>Name: {artisanName}</div>
+              </>
+            ) : (
+              <div>No artisan assigned</div>
+            )}
           </div>
         </div>
       </div>
+
+      {/* Status Update Modal */}
+      <Modal
+        title="Update Project Status"
+        open={isStatusModalOpen}
+        onOk={handleStatusUpdate}
+        onCancel={() => {
+          setIsStatusModalOpen(false);
+          setSelectedStatus(undefined);
+        }}
+        confirmLoading={isUpdating}
+      >
+        <div className="py-4">
+          <label className="block text-sm font-medium mb-2">Select Status</label>
+          <Select
+            className="w-full"
+            value={selectedStatus}
+            onChange={setSelectedStatus}
+            options={statusOptions}
+            placeholder="Choose new status"
+          />
+          <div className="mt-2 text-xs text-gray-500">
+            Current status: <Tag color={statusColor[(details?.status as Status) || "NEW"]}>{details?.status}</Tag>
+          </div>
+        </div>
+      </Modal>
+
+      {/* VAT Update Modal */}
+      <Modal
+        title="Update Project Values"
+        open={isVatModalOpen}
+        onOk={handleVatUpdate}
+        onCancel={() => {
+          setIsVatModalOpen(false);
+          setTotalWithoutVat(undefined);
+          setTotalWithVat(undefined);
+        }}
+        confirmLoading={isUpdating}
+      >
+        <div className="py-4 space-y-4">
+          <div>
+            <label className="block text-sm font-medium mb-2">
+              Total Without VAT
+            </label>
+            <InputNumber
+              className="w-full"
+              value={totalWithoutVat}
+              onChange={(val) => setTotalWithoutVat(val || undefined)}
+              placeholder="Enter amount"
+              min={0}
+              prefix="€"
+            />
+            <div className="mt-1 text-xs text-gray-500">
+              Current: {details?.totalWithoutVat ? currency(details.totalWithoutVat) : "Not set"}
+            </div>
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-2">
+              Total With VAT
+            </label>
+            <InputNumber
+              className="w-full"
+              value={totalWithVat}
+              onChange={(val) => setTotalWithVat(val || undefined)}
+              placeholder="Enter amount"
+              min={0}
+              prefix="€"
+            />
+            <div className="mt-1 text-xs text-gray-500">
+              Current: {currency(details?.totalWithVat || 0)}
+            </div>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };

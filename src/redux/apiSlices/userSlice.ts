@@ -2,27 +2,45 @@ import { api } from "../api/baseApi";
 
 const userSlice = api.injectEndpoints({
   endpoints: (builder) => ({
-    admin: builder.query({
-      query: () => {
+    getAllUsers: builder.query({
+      query: (args) => {
+        const params = new URLSearchParams();
+        if(args) {
+           args.forEach((arg: { name: string; value: string }) => {
+            params.append(arg.name, arg.value);
+          });
+        }
         return {
           method: "GET",
-          url: "/user?role=ADMIN",
+          url: "/admin/users",
+          params,
         };
       },
     }),
-    users: builder.query({
-      query: () => {
+    userStatusUpdate: builder.mutation({
+      query: ({id, status}) => {
         return {
-          method: "GET",
+          method: "PATCH",
+          url: `/admin/users/${id}/status`,
+          body: { status }, // Only send status in body, id is in URL
+        };
+      },
+    }),
+    createArtisans: builder.mutation({
+      query: (data) => {
+        return {
+          method: "POST",
           url: "/user",
+          body: data,
         };
       },
     }),
-    vendors: builder.query({
-      query: () => {
+    updateArtisanInfo: builder.mutation({
+      query: ({ id, ...data }) => {
         return {
-          method: "GET",
-          url: "/user?role=VENDOR",
+          method: "PATCH",
+          url: `/admin/artisan/${id}`,
+          body: data,
         };
       },
     }),
@@ -34,12 +52,22 @@ const userSlice = api.injectEndpoints({
         };
       },
     }),
+    deleteUser: builder.mutation({
+      query: (id) => {
+        return {
+          method: "DELETE",
+          url: `/admin/users/${id}`,
+        };
+      },
+    }),
   }),
 });
 
 export const {
-  useAdminQuery,
-  useUsersQuery,
-  useVendorsQuery,
+  useGetAllUsersQuery,
+  useUserStatusUpdateMutation,
+  useCreateArtisansMutation,
+  useUpdateArtisanInfoMutation,
   useUserByIdQuery,
+  useDeleteUserMutation,
 } = userSlice;
