@@ -108,14 +108,14 @@ const Sidebar = () => {
           ),
         },
 
-        {
-          key: "/about-us",
-          label: (
-            <Link to="/about-us" className="text-white hover:text-white">
-              About Us
-            </Link>
-          ),
-        },
+        // {
+        //   key: "/about-us",
+        //   label: (
+        //     <Link to="/about-us" className="text-white hover:text-white">
+        //       About Us
+        //     </Link>
+        //   ),
+        // },
         {
           key: "/terms-and-condition",
           label: (
@@ -135,14 +135,14 @@ const Sidebar = () => {
             </Link>
           ),
         },
-        {
-          key: "/f-a-q",
-          label: (
-            <Link to="/f-a-q" className="text-white hover:text-white">
-              FAQ
-            </Link>
-          ),
-        },
+        // {
+        //   key: "/f-a-q",
+        //   label: (
+        //     <Link to="/f-a-q" className="text-white hover:text-white">
+        //       FAQ
+        //     </Link>
+        //   ),
+        // },
       ],
     },
     {

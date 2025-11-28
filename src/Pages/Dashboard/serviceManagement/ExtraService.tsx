@@ -173,7 +173,7 @@ const AddExtraServiceModal = ({ open, onClose, categoryId, service }: Props) => 
       onOk={handleSubmit}
       okText={service ? "Update" : "Create"}
       confirmLoading={isCreating || isUpdating}
-      width={800}
+      width={900}
       destroyOnClose
       okButtonProps={{ style: { backgroundColor: "#3f51b5", color: "#fff", height: "40px", marginTop: "20px" } }}
       cancelButtonProps={{ style: { height: "40px" } }}
