@@ -242,7 +242,9 @@ const Categories = () => {
         onCancel={() => setOpen(false)}
         onOk={onSubmit}
         okText={editingId ? "Save" : "Create"}
+        okButtonProps={{ style: { backgroundColor: "#3f51b5", color: "#fff", height: "40px" } }}
         confirmLoading={isCreating || isUpdating}
+        cancelButtonProps={{ style: { height: "40px" } }}
       >
         <div className="space-y-4">
           <div>
@@ -251,6 +253,7 @@ const Categories = () => {
               placeholder="Enter category name"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              className="h-[50px]"
             />
           </div>
           <div>
