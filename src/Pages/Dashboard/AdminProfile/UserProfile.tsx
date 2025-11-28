@@ -6,18 +6,22 @@ import { MdOutlineAddPhotoAlternate } from "react-icons/md";
 import "react-phone-input-2/lib/style.css";
 import logo from "../../../assets/randomProfile2.jpg";
 import rentMeLogo from "../../../assets/navLogo.png";
+import { useFetchAdminProfileQuery, useUpdateAdminProfileMutation } from "@/redux/apiSlices/authSlice";
+import toast from "react-hot-toast";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
 interface FormValues {
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
   address: string;
   phone: string;
 }
 
 interface AdminData {
-  name: string;
+  firstName: string;
+  lastName: string;   
   email: string;
   address: string;
   contact: string;
@@ -30,25 +34,27 @@ const PersonalInfo = () => {
   const [file, setFile] = useState<File | null>(null);
   const [form] = Form.useForm();
 
-  const isLoading = false;
+  // const isLoading = false;
 
-  // const { data: fetchAdminProfile, isLoading } = useFetchAdminProfileQuery();
-  // const [updateAdminProfile] = useUpdateAdminProfileMutation();
+  const { data: fetchAdminProfile, isLoading } = useFetchAdminProfileQuery();
+  const [updateAdminProfile] = useUpdateAdminProfileMutation();
 
-  const fetchAdminProfile: { data?: AdminData } = {};
+  // const fetchAdminProfile: { data?: AdminData } = {};
 
   const adminData = fetchAdminProfile?.data;
+  console.log("adminData", adminData);
 
   useEffect(() => {
     if (adminData) {
       form.setFieldsValue({
-        name: adminData?.name,
+        firstName: adminData?.firstName,
+        lastName: adminData?.lastName,
         email: adminData?.email,
         address: adminData?.address,
-        phone: adminData?.contact,
+        phone: adminData?.phone,
       });
-      setImgURL(`${baseUrl}${adminData?.profileImg}`);
-      setContact(adminData?.contact);
+      setImgURL(`${baseUrl}${adminData?.image}`);
+      setContact(adminData?.phone);
     }
   }, [form, adminData]);
 
@@ -72,24 +78,26 @@ const PersonalInfo = () => {
   const onFinish = async (values: FormValues) => {
     try {
       const formData = new FormData();
-      formData.append("name", values.name);
-      formData.append("email", values.email);
+      formData.append("firstName", values.firstName);
+      formData.append("lastName", values.lastName);
+      // formData.append("email", values.email);
       formData.append("address", values.address);
-      formData.append("contact", contact);
+      formData.append("phone", values.phone);
 
       if (file) {
         formData.append("image", file);
       } else {
-        formData.append("imageUrl", imgURL || "");
+        // formData.append("imageUrl", imgURL || "");
       }
 
-      // const response = await updateAdminProfile(formData);
+      const response = await updateAdminProfile(formData);
 
-      // if (response.data) {
-      //   toast.success(response?.data?.message);
-      // } else {
-      //   toast.error(response?.data?.message);
+      if (response.data) {
+        toast.success(response?.data?.message);
+      } else {
+        toast.error(response?.data?.message);
       // }
+      }
     } catch (error) {
       console.error("Error updating form:", error);
     }
@@ -116,9 +124,16 @@ const PersonalInfo = () => {
             onFinishFailed={onFinishFailed}
           >
             <Form.Item
-              name="name"
-              label="Name"
-              rules={[{ required: true, message: "Please enter your name" }]}
+              name="firstName"
+              label="First Name"
+              rules={[{ required: true, message: "Please enter your first name" }]}
+            >
+              <Input className="py-3 bg-gray-100 rounded-xl" />
+            </Form.Item>
+            <Form.Item
+              name="lastName"
+              label="Last Name"
+              rules={[{ required: true, message: "Please enter your last name" }]}
             >
               <Input className="py-3 bg-gray-100 rounded-xl" />
             </Form.Item>
@@ -142,7 +157,7 @@ const PersonalInfo = () => {
             </Form.Item>
 
             <Form.Item
-              name="contact"
+              name="phone"
               label="Contact"
               rules={[{ required: true, message: "Please enter your Contact" }]}
             >
