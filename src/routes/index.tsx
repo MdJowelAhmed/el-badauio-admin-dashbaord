@@ -21,6 +21,7 @@ import ProjectManagement from "@/Pages/Dashboard/ProjectManagement";
 import ProjectManagementDetails from "@/Pages/Dashboard/ProjectManagementDetails";
 import Categories from "@/Pages/Dashboard/serviceManagement/Categories";
 import Subcategories from "@/Pages/Dashboard/serviceManagement/Subcategories";
+import AppointmentManagement from "@/Pages/Dashboard/AppointmentManagement";
 
 const router = createBrowserRouter([
   {
@@ -55,6 +56,10 @@ const router = createBrowserRouter([
       {
         path: "/users",
         element: <Users />,
+      },
+      {
+        path: "/appointment",
+        element: <AppointmentManagement />,
       },
       {
         path: "/user/:id",

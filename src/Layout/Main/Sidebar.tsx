@@ -79,6 +79,11 @@ const Sidebar = () => {
     },
 
     {
+      key: "/appointment",
+      icon: <FaUsers size={24} />,
+      label: <Link to="/appointment">Appointment</Link>,
+    },
+    {
       key: "/users",
       icon: <FaUsers size={24} />,
       label: <Link to="/users">Users</Link>,
