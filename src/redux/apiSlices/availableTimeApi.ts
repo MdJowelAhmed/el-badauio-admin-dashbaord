@@ -16,7 +16,7 @@ const availableTimeSlice = api.injectEndpoints({
       providesTags: ["AvailableTimes"],
     }),
 
-    createAvailableTime: builder.mutation({
+    updateAvailableTime: builder.mutation({
       query: (data) => {
         const token = localStorage.getItem("token");
         return {
@@ -33,5 +33,5 @@ const availableTimeSlice = api.injectEndpoints({
   }),
 });
 
-export const { useGetAvailableTimesQuery, useCreateAvailableTimeMutation } =
+export const { useGetAvailableTimesQuery, useUpdateAvailableTimeMutation } =
   availableTimeSlice;

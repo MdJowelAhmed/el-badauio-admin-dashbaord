@@ -146,9 +146,9 @@ const Sidebar = () => {
           ),
         },
         {
-          key: "/set-time",
+          key: "/available-time",
           label: (
-            <Link to="/set-time" className="text-white hover:text-white">
+            <Link to="/available-time" className="text-white hover:text-white">
             Available Time
             </Link>
           ),

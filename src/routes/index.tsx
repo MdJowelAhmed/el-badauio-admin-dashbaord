@@ -23,6 +23,7 @@ import Categories from "@/Pages/Dashboard/serviceManagement/Categories";
 import Subcategories from "@/Pages/Dashboard/serviceManagement/Subcategories";
 import AppointmentManagement from "@/Pages/Dashboard/AppointmentManagement";
 import OurProjectsManagement from "@/Pages/Dashboard/OurProjectsManagement";
+import AvailableTime from "@/components/ui/Settings/AvailableTime";
 
 const router = createBrowserRouter([
   {
@@ -98,6 +99,10 @@ const router = createBrowserRouter([
       {
         path: "/terms-and-condition",
         element: <TermsAndCondition />,
+      },
+      {
+        path:"/available-time",
+        element:<AvailableTime/>
       },
       // {
       //   path: "/edit-terms-and-conditions",
