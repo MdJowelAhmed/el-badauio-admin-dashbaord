@@ -2,12 +2,12 @@ import { Menu } from "antd";
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { IoIosLogOut } from "react-icons/io";
-import { IoSettingsOutline } from "react-icons/io5";
+import { IoCalendar, IoSettingsOutline } from "react-icons/io5";
 import { AiFillProject } from "react-icons/ai";
 import Cookies from "js-cookie";
 import logo from "../../assets/logo.png";
 import { FaUsers } from "react-icons/fa6";
-import { RiDashboardHorizontalFill } from "react-icons/ri";
+import { RiDashboardHorizontalFill, RiProjector2Fill, RiProjectorLine } from "react-icons/ri";
 import { BiSolidCategory } from "react-icons/bi";
 
 interface MenuItem {
@@ -80,12 +80,12 @@ const Sidebar = () => {
 
     {
       key: "/appointment",
-      icon: <FaUsers size={24} />,
+      icon: <IoCalendar size={24} />,
       label: <Link to="/appointment">Appointment</Link>,
     },
     {
       key: "/our-projects",
-      icon: <FaUsers size={24} />,
+      icon: <RiProjectorLine size={24} />,
       label: <Link to="/our-projects">Our Projects</Link>,
     },
     {
