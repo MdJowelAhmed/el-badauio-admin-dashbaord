@@ -66,11 +66,10 @@ const OurProjectsManagement = () => {
       });
       setFileList([
         {
-          uid: project.image,
+          uid: project._id,
           name: project.title,
           status: "done",
-          originFileObj: project.image,
-          url: project.image,
+          url: `${import.meta.env.VITE_API_BASE_URL}${project.image}`, // full URL
         },
       ]);
     } else {
@@ -159,7 +158,7 @@ const OurProjectsManagement = () => {
       width: 150,
       render: (image: string) => (
         <Image
-          src={`${import.meta.env.VITE_API_BASE_URL || ""}${image}`} 
+          src={`${import.meta.env.VITE_API_BASE_URL || ""}${image}`}
           alt="Project"
           width={120}
           height={60}
@@ -176,7 +175,7 @@ const OurProjectsManagement = () => {
       title: "Description",
       dataIndex: "description",
       key: "description",
-      ellipsis: true,
+      //   ellipsis: true,
       render: (text: string) => (
         <span>{text.length > 50 ? `${text.slice(0, 50)}...` : text}</span>
       ),
@@ -184,7 +183,7 @@ const OurProjectsManagement = () => {
     {
       title: "Action",
       key: "action",
-    //   width: 200,
+      //   width: 200,
       render: (_, record) => (
         <Space size="small">
           <Button
@@ -261,7 +260,6 @@ const OurProjectsManagement = () => {
           Our Projects
         </h1>
         <Button
-       
           icon={<PlusOutlined />}
           onClick={() => handleOpenModal()}
           className="py-[22px] bg-[#3f51b5] text-white"
@@ -283,7 +281,6 @@ const OurProjectsManagement = () => {
           showSizeChanger: false,
           showTotal: (total) => `Total ${total} items`,
         }}
-      
       />
 
       <Modal
@@ -339,11 +336,17 @@ const OurProjectsManagement = () => {
 
           <Form.Item style={{ marginBottom: 0, textAlign: "right" }}>
             <Space>
-              <Button onClick={handleCloseModal}>Cancel</Button>
               <Button
-                type="primary"
+                onClick={handleCloseModal}
+                className="py-[20px]  text-black"
+              >
+                Cancel
+              </Button>
+              <Button
+                // type="primary"
                 htmlType="submit"
                 loading={isCreating || isUpdating}
+                className="py-[20px] bg-[#3f51b5] text-white"
               >
                 {editingProject ? "Update" : "Save Category"}
               </Button>
@@ -369,40 +372,42 @@ const OurProjectsManagement = () => {
         //     Edit Project
         //   </Button>,
         // ]}
-     footer={null}
+        footer={null}
         width={700}
       >
         {viewingProject && (
           <div>
             <div style={{ marginBottom: "16px" }}>
               <Image
-                src={`${import.meta.env.VITE_API_BASE_URL || ""}${viewingProject.image}`} 
+                src={`${import.meta.env.VITE_API_BASE_URL || ""}${
+                  viewingProject.image
+                }`}
                 alt={viewingProject.title}
                 style={{
                   width: "650px",
                   maxHeight: "370px",
                   objectFit: "cover",
                   borderRadius: "8px",
-                //   margin: "0 auto",
+                  //   margin: "0 auto",
                 }}
               />
             </div>
             <div style={{ marginBottom: "16px" }}>
-              
-                Project Name:  
-            
-              <span style={{ fontSize: "16px",fontWeight:"bold" }}>
+              Project Name:
+              <span style={{ fontSize: "16px", fontWeight: "bold" }}>
                 {viewingProject.title}
               </span>
             </div>
             <div>
-             
-               <span style={{ fontSize: "14px",fontWeight:"bold" }}> Description: </span>
-            
+              <span style={{ fontSize: "14px", fontWeight: "bold" }}>
+                {" "}
+                Description:{" "}
+              </span>
+
               <span
                 style={{
                   fontSize: "14px",
-                
+
                   lineHeight: "1.6",
                 }}
               >
