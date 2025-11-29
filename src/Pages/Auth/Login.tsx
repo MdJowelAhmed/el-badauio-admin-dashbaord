@@ -1,9 +1,7 @@
-import { Checkbox, Form, Input } from "antd";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import {  Form, Input } from "antd";
 import toast from "react-hot-toast";
-import Cookies from "js-cookie";
 import { useLoginMutation } from "@/redux/apiSlices/authSlice";
+import { useNavigate } from "react-router-dom";
 
 interface LoginFormValues {
   email: string;
@@ -11,18 +9,18 @@ interface LoginFormValues {
   rememberMe?: boolean;
 }
 
-interface LoginResponse {
-  data?: {
-    accessToken: string;
-    refreshToken: string;
-  };
-}
+// interface LoginResponse {
+//   data?: {
+//     accessToken: string;
+//     refreshToken: string;
+//   };
+// }
 
-interface CheckboxChangeEvent {
-  target: {
-    checked: boolean;
-  };
-}
+// interface CheckboxChangeEvent {
+//   target: {
+//     checked: boolean;
+//   };
+// }
 
 const Login = () => {
   const navigate = useNavigate();
