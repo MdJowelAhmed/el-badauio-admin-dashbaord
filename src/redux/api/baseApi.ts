@@ -60,4 +60,5 @@ export const api = createApi({
 });
 
 // Base image URL
-export const imageUrl = "http://10.10.7.54:4000";
+// export const imageUrl = "http://10.10.7.54:4000";
+export const imageUrl = "https://sohag500.binarybards.online";
