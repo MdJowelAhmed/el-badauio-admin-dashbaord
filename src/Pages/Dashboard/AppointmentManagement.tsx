@@ -1,14 +1,12 @@
 import { useGetAllAppointmentsQuery } from "@/redux/apiSlices/appointmentApi";
 import { useState } from "react";
-import { Table, Tag, Select, Card, Row, Col, Statistic, Spin } from "antd";
+import { Table, Tag, Select, Card, Spin } from "antd";
 import {
   CalendarOutlined,
   ClockCircleOutlined,
   UserOutlined,
   MailOutlined,
-  PhoneOutlined,
-  CheckCircleOutlined,
-  CloseCircleOutlined,
+  PhoneOutlined
 } from "@ant-design/icons";
 
 const AppointmentManagement = () => {
@@ -19,7 +17,7 @@ const AppointmentManagement = () => {
   const queryParams = [
     { name: "page", value: currentPage.toString() },
     { name: "limit", value: perPage.toString() },
-    // { name: "dateFilter", value: dateFilter }
+    { name: "dateFilter", value: dateFilter }
   ];
 
   const { data, isLoading } = useGetAllAppointmentsQuery(queryParams);
@@ -102,38 +100,6 @@ const AppointmentManagement = () => {
         return <Tag color={colors[status as keyof typeof colors] || "default"}>{status}</Tag>;
       },
     },
-    {
-      title: "Reminders",
-      key: "reminders",
-      render: (_: any, record: any) => (
-        <div>
-          <div>
-            {record.reminderOneDaySent ? (
-              <CheckCircleOutlined
-                style={{ color: "#52c41a", marginRight: 4 }}
-              />
-            ) : (
-              <CloseCircleOutlined
-                style={{ color: "#d9d9d9", marginRight: 4 }}
-              />
-            )}
-            1 Day
-          </div>
-          <div style={{ marginTop: 4 }}>
-            {record.reminderOneWeekSent ? (
-              <CheckCircleOutlined
-                style={{ color: "#52c41a", marginRight: 4 }}
-              />
-            ) : (
-              <CloseCircleOutlined
-                style={{ color: "#d9d9d9", marginRight: 4 }}
-              />
-            )}
-            1 Week
-          </div>
-        </div>
-      ),
-    },
   ];
 
   if (isLoading) {
@@ -183,7 +149,7 @@ const AppointmentManagement = () => {
                 <Select.Option value="all">All Dates</Select.Option>
                 <Select.Option value="today">Today</Select.Option>
                 <Select.Option value="tomorrow">Tomorrow</Select.Option>
-                <Select.Option value="next7days">Next 7 Days</Select.Option>
+                <Select.Option value="next_7_days">Next 7 Days</Select.Option>
               </Select>
             </div>
           </div>
