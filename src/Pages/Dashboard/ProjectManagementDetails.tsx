@@ -13,6 +13,7 @@ const statusColor: Record<Status, string> = {
   NEW: "#3b82f6",
 };
 
+
 const statusOptions = [
   { label: "New", value: "NEW" as const },
   { label: "Accepted", value: "ACCEPTED" as const },

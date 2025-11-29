@@ -1,6 +1,6 @@
 import { FaUsers } from "react-icons/fa6";
 import { BiBarChartAlt2 } from "react-icons/bi";
-import { RiCalendarTodoFill, RiClipboardFill } from "react-icons/ri";
+import { RiCalendarTodoFill } from "react-icons/ri";
 import salongoLogo from "../../../assets/salon-go-logo.png";
 import { useGeneralStatsQuery } from "@/redux/apiSlices/dashboardSlice";
 

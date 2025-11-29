@@ -1,5 +1,5 @@
 import { useProjectManagementQuery, useUpdateProjectManagementMutation } from "@/redux/apiSlices/projectManagementApi";
-import { Table, Tag, Button, Input, Select, ConfigProvider, Spin, message } from "antd";
+import { Table, Button, Input, Select, ConfigProvider, Spin, message } from "antd";
 import type { TableProps } from "antd";
 import moment from "moment";
 import { FaEye } from "react-icons/fa6";

@@ -12,6 +12,7 @@ interface UpdateProjectArgs {
   status?: "NEW" | "COMPLETED" | "ACCEPTED";
   totalWithoutVat?: number;
   totalWithVat?: number;
+  artisanId?: string;
 }
 
 const projectManagementApi = api.injectEndpoints({

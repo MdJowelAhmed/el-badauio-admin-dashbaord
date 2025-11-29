@@ -1,6 +1,6 @@
 import { useGetAllAppointmentsQuery } from "@/redux/apiSlices/appointmentApi";
 import { useState } from "react";
-import { Table, Tag, Select, Card, Spin } from "antd";
+import { Table, Tag, Select, Spin } from "antd";
 import {
   CalendarOutlined,
   ClockCircleOutlined,
