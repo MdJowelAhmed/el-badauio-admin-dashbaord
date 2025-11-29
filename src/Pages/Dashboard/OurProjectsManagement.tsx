@@ -97,21 +97,18 @@ const OurProjectsManagement = () => {
     setViewingProject(null);
   };
 
-
-
   const handleSubmit = async (values: any) => {
     try {
       const formData = new FormData();
       formData.append("title", values.title);
       formData.append("description", values.description);
 
-      // Check if new file is uploaded
-      if (fileList.length > 0) {
+      // শুধুমাত্র নতুন ফাইল আপলোড করা হলে image append করুন
+      if (fileList.length > 0 && fileList[0].originFileObj) {
         formData.append("image", fileList[0].originFileObj);
       }
 
       if (editingProject) {
-        // For update, spread the id with formData
         await updateProject({
           id: editingProject._id,
           formData: formData,
@@ -249,7 +246,7 @@ const OurProjectsManagement = () => {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-     marginBottom: "24px"
+          marginBottom: "24px",
         }}
       >
         <h1 style={{ margin: 0, fontSize: "28px", fontWeight: "bold" }}>

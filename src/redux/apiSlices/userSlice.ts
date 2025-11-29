@@ -25,6 +25,7 @@ const userSlice = api.injectEndpoints({
           body: { status }, // Only send status in body, id is in URL
         };
       },
+      invalidatesTags: ["Users"], 
     }),
     createArtisans: builder.mutation({
       query: (data) => {
@@ -34,6 +35,7 @@ const userSlice = api.injectEndpoints({
           body: data,
         };
       },
+      invalidatesTags: ["Users"],     
     }),
     updateArtisanInfo: builder.mutation({
       query: ({ id, ...data }) => {
@@ -43,6 +45,7 @@ const userSlice = api.injectEndpoints({
           body: data,
         };
       },
+      invalidatesTags: ["Users"],
     }),
     userById: builder.query({
       query: (id) => {
@@ -51,6 +54,7 @@ const userSlice = api.injectEndpoints({
           url: `/user/profile/${id}`,
         };
       },
+      providesTags: ["Users"],
     }),
     deleteUser: builder.mutation({
       query: (id) => {
@@ -59,6 +63,7 @@ const userSlice = api.injectEndpoints({
           url: `/admin/users/${id}`,
         };
       },
+      invalidatesTags: ["Users"], 
     }),
   }),
 });

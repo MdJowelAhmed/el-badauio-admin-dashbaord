@@ -46,7 +46,7 @@ const categorySlice = api.injectEndpoints({
 
         return {
           method: "PATCH",
-          url: `/category/${id}`, 
+          url: `/categories/${id}`, 
           body: formData,
         };
       },
@@ -57,7 +57,7 @@ const categorySlice = api.injectEndpoints({
       query: (id) => {
         return {
           method: "DELETE",
-          url: `/category/${id}`, 
+          url: `/categories/${id}`, 
         };
       },
       invalidatesTags: ["Category"],
