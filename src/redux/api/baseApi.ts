@@ -13,7 +13,8 @@ const baseQueryWithAuth: BaseQueryFn<
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
   const baseQuery = fetchBaseQuery({
-    baseUrl: "https://sohag500.binarybards.online/api/v1",
+    // baseUrl: "http://10.10.7.54:4000/api/v1",
+    baseUrl: "https://sohag500.binarybards.online",
     prepareHeaders: (headers) => {
       const token =
         localStorage.getItem("authToken") ||
