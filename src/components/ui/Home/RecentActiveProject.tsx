@@ -1,70 +1,22 @@
-import { Button, ConfigProvider, Table } from "antd";
-import { Link } from "react-router-dom";
-import moment from "moment";
+import {  ConfigProvider, Table } from "antd";
+
 import { useRecentProjectQuery } from "@/redux/apiSlices/dashboardSlice";
 
-interface Order {
-  projectId: string;
-  clientName: string;
-  artisan: string;
-  status: string;
-  estimatedAmount: number;
-  createdAt: string;
-  key?: string;
-}
+// interface Order {
+//   projectId: string;
+//   clientName: string;
+//   artisan: string;
+//   status: string;
+//   estimatedAmount: number;
+//   createdAt: string;
+//   key?: string;
+// }
 
 const RecentActiveProject = () => {
 const {data:recentProject}=useRecentProjectQuery(null)
 console.log("Recent Project", recentProject);
 
-  // Dummy data for salon orders
-  const dummyOrders: Order[] = [
-    {
-      projectId: "ORD001",
-      clientName: "John Doe",
-      artisan: "Nolan Noa",
-      status: "accepted",
-      estimatedAmount: 56550,
-      createdAt: "2024-12-01T10:00:00Z",
-    },
-    {
-      projectId: "ORD002",
-      clientName: "Jane Smith",
-      artisan: "Nolan Noa",
-      status: "pending",
-      estimatedAmount: 80000,
-      createdAt: "2024-12-03T14:00:00Z",
-    },
-    {
-      projectId: "ORD003",
-      clientName: "Alice Johnson",
-      artisan: "Nolan Noa",
-      status: "completed",
-      estimatedAmount: 40000,
-      createdAt: "2024-12-05T09:30:00Z",
-    },
-    {
-      projectId: "ORD004",
-      clientName: "Bob Brown",
-      artisan: "Nolan Noa",
-      status: "completed",
-      estimatedAmount: 120000,
-      createdAt: "2024-12-06T12:15:00Z",
-    },
-    {
-      projectId: "ORD005",
-      clientName: "Charlie Davis",
-      artisan: "Nolan Noa",
-      status: "completed",
-      estimatedAmount: 60000,
-      createdAt: "2024-12-08T08:45:00Z",
-    },
-  ];
-
-  const data = dummyOrders.slice(0, 4).map((order, index) => ({
-    ...order,
-    key: order.projectId || index.toString(),
-  }));
+ 
 
   const formattedData =
     recentProject?.data?.map((item: any) => ({

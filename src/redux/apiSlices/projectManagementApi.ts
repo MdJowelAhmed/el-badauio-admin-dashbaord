@@ -12,6 +12,7 @@ interface UpdateProjectArgs {
   status?: "NEW" | "COMPLETED" | "ACCEPTED";
   totalWithoutVat?: number;
   totalWithVat?: number;
+  artisanId?: string;
 }
 
 const projectManagementApi = api.injectEndpoints({
@@ -55,6 +56,14 @@ const projectManagementApi = api.injectEndpoints({
         { type: "ProjectManagement", id },
       ],
     }),
+
+    getAllArtisan: builder.query({
+      query: () => ({
+        method: "GET",
+        url: "/admin/all-artisan",
+      }),
+      providesTags: ["ProjectManagement"],
+    }),
   }),
 });
 
@@ -62,4 +71,5 @@ export const {
   useProjectManagementQuery,
   useSingleProjectManagementQuery,
   useUpdateProjectManagementMutation,
+  useGetAllArtisanQuery,
 } = projectManagementApi;

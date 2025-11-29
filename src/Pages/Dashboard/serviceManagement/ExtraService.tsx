@@ -43,6 +43,8 @@ const AddExtraServiceModal = ({ open, onClose, categoryId, service }: Props) => 
 
   const [addExtraService, { isLoading: isCreating }] = useAddExtraServiceMutation();
   const [updateExtraService, { isLoading: isUpdating }] = useUpdateExtraServiceMutation();
+  // const isEdit = Boolean(service);
+
 
   useEffect(() => {
     if (service) {
@@ -180,18 +182,19 @@ const AddExtraServiceModal = ({ open, onClose, categoryId, service }: Props) => 
     >
       <div className="space-y-4">
         <div>
-          <label className="block text-sm font-medium mb-2">Question Text *</label>
+          <label className="block text-sm font-medium mb-2">Extra Service Text asking question *</label>
           <Input
             placeholder="What type of flooring do you want to Install?"
             value={questionText}
             onChange={(e) => setQuestionText(e.target.value)}
             className="h-[45px]"
+            disabled={Boolean(service)}
           />
         </div>
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium mb-2">Question Type *</label>
+            <label className="block text-sm font-medium mb-2">Extra Service Type *</label>
             <Select
               value={questionType}
               onChange={(value) => setQuestionType(value)}
@@ -201,6 +204,7 @@ const AddExtraServiceModal = ({ open, onClose, categoryId, service }: Props) => 
                 { label: "Multiple Choice", value: "MULTIPLE_CHOICE" },
                 { label: "Image with Name", value: "IMAGE_NAME" },
               ]}
+              disabled={Boolean(service)}
             />
           </div>
 

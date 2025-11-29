@@ -79,6 +79,16 @@ const Sidebar = () => {
     },
 
     {
+      key: "/appointment",
+      icon: <FaUsers size={24} />,
+      label: <Link to="/appointment">Appointment</Link>,
+    },
+    {
+      key: "/our-projects",
+      icon: <FaUsers size={24} />,
+      label: <Link to="/our-projects">Our Projects</Link>,
+    },
+    {
       key: "/users",
       icon: <FaUsers size={24} />,
       label: <Link to="/users">Users</Link>,
@@ -135,14 +145,14 @@ const Sidebar = () => {
             </Link>
           ),
         },
-        // {
-        //   key: "/f-a-q",
-        //   label: (
-        //     <Link to="/f-a-q" className="text-white hover:text-white">
-        //       FAQ
-        //     </Link>
-        //   ),
-        // },
+        {
+          key: "/available-time",
+          label: (
+            <Link to="/available-time" className="text-white hover:text-white">
+            Available Time
+            </Link>
+          ),
+        },
       ],
     },
     {

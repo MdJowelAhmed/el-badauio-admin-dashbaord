@@ -26,42 +26,28 @@ interface CheckboxChangeEvent {
 
 const Login = () => {
   const navigate = useNavigate();
-  const [rememberMe, setRememberMe] = useState<boolean>(false);
+  // const [rememberMe, setRememberMe] = useState<boolean>(false);
   const [login] = useLoginMutation();
 
-  const onFinish = async (values: LoginFormValues): Promise<void> => {
+  const onFinish = async (values: LoginFormValues) => {
     try {
-      console.log(values);
-      const response = (await login(values).unwrap()) as LoginResponse;
-      const { accessToken } = response?.data || {};
-      const { refreshToken } = response?.data || {};
+      const response = await login(values).unwrap();
+      const { accessToken } = response.data;
 
-      if (rememberMe) {
-        localStorage.setItem("authToken", accessToken || "");
-        localStorage.setItem("refreshToken", refreshToken || "");
-        Cookies.set("refreshToken", refreshToken || "");
-      } else {
-        sessionStorage.setItem("authToken", accessToken || "");
-        localStorage.setItem("refreshToken", refreshToken || "");
-        Cookies.set("refreshToken", refreshToken || "");
-      }
+    
+        localStorage.setItem("authToken", accessToken);
+        // localStorage.setItem("refreshToken", refreshToken);
+     
 
-      navigate("/");
-      toast.success("Login successful!");
-    } catch (error: any) {
-      toast.error(error?.data?.message || "An error occurred", {
-        style: {
-          fontSize: "18px",
-          padding: "20px",
-          maxWidth: "600px",
-        },
-      });
+      navigate("/"); 
+    } catch (err) {
+      toast.error("Login failed");
     }
   };
 
-  const onCheckboxChange = (e: CheckboxChangeEvent): void => {
-    setRememberMe(e.target.checked);
-  };
+  // const onCheckboxChange = (e: CheckboxChangeEvent): void => {
+  //   setRememberMe(e.target.checked);
+  // };
 
   return (
     <div>
@@ -118,14 +104,14 @@ const Login = () => {
         <Form.Item style={{ marginBottom: 0 }}>
           <div className="flex justify-between items-center">
             {/* Remember Me Checkbox */}
-            <Checkbox onChange={onCheckboxChange} className="text-sm">
+            {/* <Checkbox onChange={onCheckboxChange} className="text-sm">
               Remember Me
-            </Checkbox>
+            </Checkbox> */}
 
             {/* Forgot Password Link */}
             <a
               href="/auth/forgot-password"
-              className="text-sm text-blue-500 hover:text-blue-700"
+              className="text-sm font-bold text-blue-500 hover:text-blue-700"
             >
               Forgot Password?
             </a>
