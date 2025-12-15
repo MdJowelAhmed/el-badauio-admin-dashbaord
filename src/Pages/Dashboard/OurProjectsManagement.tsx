@@ -399,10 +399,12 @@ const OurProjectsManagement = () => {
                     afterImageFileList.length > 0 || editingProject
                       ? Promise.resolve()
                       : Promise.reject(new Error("Please upload after image!")),
+                      
                 },
               ]}
+              className="w-[300px]"
             >
-              <Upload {...afterImageUploadProps}>
+              <Upload {...afterImageUploadProps}   accept="image/*"   maxCount={1}>
                 <Button icon={<UploadOutlined />} className="h-[44px]">
                   Select After Image
                 </Button>
@@ -421,8 +423,9 @@ const OurProjectsManagement = () => {
                         ),
                 },
               ]}
+              className="w-[300px]"
             >
-              <Upload {...beforeImageUploadProps}>
+              <Upload {...beforeImageUploadProps} accept="image/*"   maxCount={1}>
                 <Button icon={<UploadOutlined />} className="h-[44px]">
                   Select Before Image
                 </Button>
