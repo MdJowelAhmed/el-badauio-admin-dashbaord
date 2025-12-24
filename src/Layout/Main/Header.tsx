@@ -1,6 +1,7 @@
 
 import logo from "../../assets/randomProfile2.jpg";
 import { useFetchAdminProfileQuery } from "../../redux/apiSlices/authSlice";
+import LanguageSelector from "../../components/common/LanguageSelector";
 
 interface UserData {
   firstName?: string;
@@ -34,6 +35,8 @@ const Header = () => {
           <FaRegBell color="#4E4E4E" size={24} />
         </Badge>
       </Link> */}
+
+      <LanguageSelector />
 
       <div className="flex gap-2 items-center justify-center border-4 p-1 rounded-full">
         <img
