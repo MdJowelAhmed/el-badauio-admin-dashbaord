@@ -118,3 +118,23 @@
 .ant-switch-checked {
   background-color: #3f51b5 !important;
 }
+
+/* Hide Google Translate default UI elements */
+#google_translate_element {
+  display: none !important;
+}
+
+.goog-te-banner-frame,
+.goog-te-balloon-frame,
+#google_translate_element > div {
+  display: none !important;
+}
+
+body {
+  top: 0 !important;
+}
+
+/* Prevent Google Translate from adding top margin */
+.skiptranslate {
+  display: none !important;
+}
