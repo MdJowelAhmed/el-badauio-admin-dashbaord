@@ -52,6 +52,43 @@ export default function GoogleTranslate() {
     // No cleanup needed — safe to leave patched
   }, []);
 
+  // Hide all Google Translate UI elements immediately
+  useEffect(() => {
+    const hideTranslateElements = () => {
+      const selectors = [
+        '.goog-te-banner-frame',
+        '.goog-te-balloon-frame',
+        '.goog-te-gadget',
+        '.goog-te-gadget-simple',
+        '.goog-te-gadget-icon',
+        '.skiptranslate',
+        'iframe[title*="translate"]',
+        'iframe[title*="Google"]',
+        '.goog-te-menu-frame',
+        '#google_translate_element > div',
+        '#google_translate_element > span',
+      ];
+      
+      selectors.forEach(selector => {
+        const elements = document.querySelectorAll(selector);
+        elements.forEach((el: Element) => {
+          (el as HTMLElement).style.display = 'none';
+          (el as HTMLElement).style.visibility = 'hidden';
+          (el as HTMLElement).style.opacity = '0';
+          (el as HTMLElement).style.height = '0';
+          (el as HTMLElement).style.width = '0';
+          (el as HTMLElement).style.overflow = 'hidden';
+        });
+      });
+    };
+
+    // Run immediately and continuously
+    hideTranslateElements();
+    const interval = setInterval(hideTranslateElements, 100);
+    
+    return () => clearInterval(interval);
+  }, []);
+
   // Initialize Google Translate
   useEffect(() => {
     // Create container if needed
@@ -59,6 +96,8 @@ export default function GoogleTranslate() {
     if (!container) {
       container = document.createElement("div");
       container.id = "google-translate-container";
+      container.style.display = 'none';
+      container.style.visibility = 'hidden';
       document.body.insertBefore(container, document.body.firstChild);
     }
 
@@ -166,7 +205,16 @@ export default function GoogleTranslate() {
   return (
     <div
       id="google_translate_element"
-      style={{ display: "none" }}
+      style={{ 
+        display: "none",
+        visibility: "hidden",
+        opacity: 0,
+        height: 0,
+        width: 0,
+        overflow: "hidden",
+        position: "absolute",
+        left: "-9999px"
+      }}
       className="notranslate"
     />
   );
