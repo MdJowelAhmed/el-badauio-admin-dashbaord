@@ -7,7 +7,7 @@ import { AiFillProject } from "react-icons/ai";
 import Cookies from "js-cookie";
 import logo from "../../assets/logo.png";
 import { FaUsers } from "react-icons/fa6";
-import { RiDashboardHorizontalFill, RiProjector2Fill, RiProjectorLine } from "react-icons/ri";
+import { RiDashboardHorizontalFill,  RiProjectorLine } from "react-icons/ri";
 import { BiSolidCategory } from "react-icons/bi";
 
 interface MenuItem {
