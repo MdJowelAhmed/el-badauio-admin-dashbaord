@@ -172,7 +172,7 @@ const OurProjectsManagement = () => {
 
   const columns: ColumnsType<Project> = [
     {
-      title: "Serial",
+      title: "Project Number",
       dataIndex: "",
       key: "serial",
       width: 80,
@@ -180,7 +180,7 @@ const OurProjectsManagement = () => {
       render: (_, __, index) => index + 1,
     },
     {
-      title: "After Image",
+      title: "Après Image",
       dataIndex: "afterImage",
       key: "afterImage",
       width: 150,
@@ -391,7 +391,7 @@ const OurProjectsManagement = () => {
           <div className="flex justify-between items-center">
             {" "}
             <Form.Item
-              label="After Image"
+              label="Après Image"
               name="afterImage"
               rules={[
                 {
@@ -406,7 +406,7 @@ const OurProjectsManagement = () => {
             >
               <Upload {...afterImageUploadProps}   accept="image/*"   maxCount={1}>
                 <Button icon={<UploadOutlined />} className="h-[44px]">
-                  Select After Image
+                  Select Après Image
                 </Button>
               </Upload>
             </Form.Item>
@@ -472,13 +472,13 @@ const OurProjectsManagement = () => {
             <div className="flex justify-between items-center">
               <div style={{ marginBottom: "16px" }}>
                 <div style={{ marginBottom: "8px", fontWeight: "bold" }}>
-                  After Image:
+                Après Image:
                 </div>
                 <Image
                   src={`${import.meta.env.VITE_API_BASE_URL || ""}${
                     viewingProject.afterImage
                   }`}
-                  alt="After"
+                  alt="Après"
                   style={{
                     width: "400px",
                     height: "300px",

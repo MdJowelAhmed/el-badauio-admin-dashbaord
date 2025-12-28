@@ -29,9 +29,9 @@ const statusColor: Record<Project["status"], string> = {
 };
 
 const statusOptions = [
-  { label: "New", value: "NEW" as const },
-  { label: "Accepted", value: "ACCEPTED" as const },
-  { label: "Completed", value: "COMPLETED" as const },
+  { label: "Estimé", value: "NEW" as const },
+  { label: "Projet terminé ", value: "COMPLETED" as const },
+  { label: "Projet en cours", value: "ACCEPTED" as const },
 ];
 
 // Status Update Cell Component
