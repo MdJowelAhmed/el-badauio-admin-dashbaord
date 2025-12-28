@@ -20,16 +20,16 @@ const ProjectStatus = () => {
 
   // Convert API data to chart format
   const chartData = [
-    { name: "Accepted", value: status.accepted || 0, fill: "#14b8a6" },
-    { name: "Completed", value: status.completed || 0, fill: "#3b82f6" },
-    { name: "New Inquiry", value: status.new || 0, fill: "#f59e0b" },
+    { name: "Projet en cours", value: status.accepted || 0, fill: "#14b8a6" },
+    { name: "Projet terminé ", value: status.completed || 0, fill: "#3b82f6" },
+    { name: "Estimé", value: status.new || 0, fill: "#f59e0b" },
   ];
 
   return (
     <div className="bg-white rounded-2xl p-4 shadow-sm h-full">
       <div className="text-center md:text-left">
         <h4 className="mb-5 mt-4 text-xl font-semibold">
-          Project Status Funnel
+        Répartitions des Estimations
         </h4>
       </div>
 
@@ -54,11 +54,11 @@ const ProjectStatus = () => {
 
       <div className="mt-4 flex items-center justify-center gap-10">
         <div className="space-y-3">
-          <LegendItem color="#14b8a6" label="Accepted" />
-          <LegendItem color="#3b82f6" label="Completed" />
+          <LegendItem color="#14b8a6" label="Projet en cours" />
+          <LegendItem color="#3b82f6" label="Projet terminé " />
         </div>
         <div className="space-y-3">
-          <LegendItem color="#f59e0b" label="New Inquiry" />
+          <LegendItem color="#f59e0b" label="Estimé" />
         </div>
       </div>
     </div>

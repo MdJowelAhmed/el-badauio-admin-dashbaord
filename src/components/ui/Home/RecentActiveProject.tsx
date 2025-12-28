@@ -54,7 +54,7 @@ console.log("Recent Project", recentProject);
       title: "Estimated Amount",
       dataIndex: "estimatedAmount",
       key: "estimatedAmount",
-      render: (text: number) => `$${text}`,
+      render: (text: number) => `${text} €`,
     },
     {
       title: "Status",
@@ -62,10 +62,10 @@ console.log("Recent Project", recentProject);
       key: "status",
       render: (status: string) => {
         const statusMap: { [key: string]: { label: string; color: string } } = {
-          accepted: { label: "Accepted", color: "green" },
-          pending: { label: "Pending", color: "orange" },
-          completed: { label: "Completed", color: "blue" },
-          new: { label: "New", color: "#f59e0b" },
+          accepted: { label: "Projet en cours", color: "#14b8a6" },
+          // pending: { label: "Pending", color: "orange" },
+          completed: { label: "Projet terminé ", color: "#3b82f6" },
+          new: { label: "Estimé", color: "#f59e0b" },
         };
 
         const current = statusMap[status] || {
@@ -95,7 +95,7 @@ console.log("Recent Project", recentProject);
   return (
     <div className="border bg-white  p-5 rounded-2xl">
       <div className="flex items-center justify-between mb-2">
-        <h4 className="mb-2 text-xl font-semibold">Recent Active Projects</h4>
+        <h4 className="mb-2 text-xl font-semibold">Liste des projets</h4>
         {/* <Link to={"/analytics"}>
           <Button className="bg-secondary border-secondary">View All</Button>
         </Link> */}

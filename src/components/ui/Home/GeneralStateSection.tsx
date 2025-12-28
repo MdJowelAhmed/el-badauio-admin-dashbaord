@@ -33,7 +33,7 @@ const GeneralStateSection = () => {
 
   const cards = [
     {
-      title: "Total Estimate projects",
+      title: "Projets total estimé",
       value: data?.data?.totalProjects ?? 0,
       prefix: "",
       icon: BiBarChartAlt2,
@@ -57,7 +57,7 @@ const GeneralStateSection = () => {
       light: "#fef08a",
     },
     {
-      title: "New Clients (30D)",
+      title: " Nouveaux clients (30 dernier jours)",
       value: data?.data?.clientLast30Days ?? 0,
       prefix: "",
       icon: FaUsers,

@@ -25,9 +25,9 @@ const statusColor: Record<Status, string> = {
 };
 
 const statusOptions = [
-  { label: "New", value: "NEW" as const },
-  { label: "Accepted", value: "ACCEPTED" as const },
-  { label: "Completed", value: "COMPLETED" as const },
+  { label: "Estimé", value: "NEW" as const },
+  { label: "Projet terminé ", value: "COMPLETED" as const },
+  { label: "Projet en cours", value: "ACCEPTED" as const },
 ];
 
 const currency = (n: number, c: string = "EUR") =>
@@ -267,7 +267,7 @@ const ProjectManagementDetails = () => {
                   color={statusColor[details.status as Status]}
                   style={{ color: "#fff" }}
                 >
-                  {details.status}
+                  {details.status === "NEW" ? "Estimé" : details.status === "COMPLETED" ? "Projet terminé " : "Projet en cours"}
                 </Tag>
               </Descriptions.Item>
             </Descriptions>
@@ -350,7 +350,7 @@ const ProjectManagementDetails = () => {
           <div className="mt-2 text-xs text-gray-500">
             Current status:{" "}
             <Tag color={statusColor[(details?.status as Status) || "NEW"]}>
-              {details?.status}
+              {details?.status === "NEW" ? "Estimé" : details.status === "COMPLETED" ? "Projet terminé " : "Projet en cours"}
             </Tag>
           </div>
         </div>
