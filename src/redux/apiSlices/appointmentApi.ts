@@ -23,9 +23,24 @@ const appointmentSlice = api.injectEndpoints({
           params
         };
       },
-  
+      providesTags: ["Appointments"],
+    }),
+
+    appointmentStatusUpdate: builder.mutation({
+      query: ({ id, status }) => {
+        const token = localStorage.getItem("token");
+        return {
+          url: `/admin/appointments/${id}/status`,
+          method: "PATCH",
+          headers: {
+            Authorization: token ? `Bearer ${JSON.parse(token)}` : "",
+          },
+          body: { status },
+        };
+      },
+      invalidatesTags: ["Appointments"],
     }),
   }),
 });
 
-export const { useGetAllAppointmentsQuery } = appointmentSlice;
+export const { useGetAllAppointmentsQuery, useAppointmentStatusUpdateMutation } = appointmentSlice;

@@ -56,6 +56,7 @@ export const api = createApi({
     "AvailableTimes",
     "ProjectManagement",
     "Users",
+    "Appointments",
   ],
   endpoints: () => ({}),
 });

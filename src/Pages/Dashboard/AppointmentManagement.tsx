@@ -1,6 +1,6 @@
-import { useGetAllAppointmentsQuery } from "@/redux/apiSlices/appointmentApi";
+import { useGetAllAppointmentsQuery, useAppointmentStatusUpdateMutation } from "@/redux/apiSlices/appointmentApi";
 import { useState } from "react";
-import { Table, Tag, Select, Spin, ConfigProvider } from "antd";
+import { Table, Tag, Select, Spin, ConfigProvider, message } from "antd";
 import {
   CalendarOutlined,
   ClockCircleOutlined,
@@ -21,7 +21,7 @@ const AppointmentManagement = () => {
   ];
 
   const { data, isLoading } = useGetAllAppointmentsQuery(queryParams);
-  console.log(data);
+  const [updateStatus, { isLoading: isUpdating }] = useAppointmentStatusUpdateMutation();
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("en-US", {
@@ -37,6 +37,18 @@ const AppointmentManagement = () => {
       minute: "2-digit",
       hour12: true,
     });
+  };
+
+  const handleStatusChange = async (appointmentId: string, newStatus: string) => {
+    try {
+      await updateStatus({
+        id: appointmentId,
+        status: newStatus,
+      }).unwrap();
+      message.success("Appointment status updated successfully!");
+    } catch (error: any) {
+      message.error(error?.data?.message || "Failed to update appointment status");
+    }
   };
 
   const columns = [
@@ -91,13 +103,23 @@ const AppointmentManagement = () => {
       title: "Status",
       dataIndex: "status",
       key: "status",
-      render: (status: string) => {
-        const colors = {
-          scheduled: "blue",
-          completed: "green",
-          cancelled: "red",
-        };
-        return <Tag color={colors[status as keyof typeof colors] || "default"}>{status}</Tag>;
+      render: (status: string, record: any) => {
+        return (
+          <Select
+            value={status}
+            onChange={(newStatus) => handleStatusChange(record._id, newStatus)}
+            loading={isUpdating}
+            style={{ width: 140 }}
+            disabled={isUpdating}
+          >
+            <Select.Option value="scheduled">
+              <Tag color="blue">Scheduled</Tag>
+            </Select.Option>
+            <Select.Option value="completed">
+              <Tag color="green">Completed</Tag>
+            </Select.Option>
+          </Select>
+        );
       },
     },
   ];
