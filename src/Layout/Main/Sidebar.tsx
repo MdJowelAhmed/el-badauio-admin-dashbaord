@@ -46,12 +46,12 @@ const Sidebar = () => {
     {
       key: "/project-management",
       icon: <AiFillProject size={24} />,
-      label: <Link to="/project-management">Project Management</Link>,
+      label: <Link to="/project-management">Project</Link>,
     },
     {
       key: "service-management",
       icon: <BiSolidCategory size={24} />,
-      label: "Service Management",
+      label: "Service",
       children: [
         {
           key: "/service-management/categories",
@@ -105,7 +105,7 @@ const Sidebar = () => {
               to="/personal-information"
               className="text-white hover:text-white"
             >
-              Personal Information
+              Personal Info
             </Link>
           ),
         },
@@ -133,7 +133,7 @@ const Sidebar = () => {
               to="/terms-and-condition"
               className="text-white hover:text-white"
             >
-              Terms And Condition
+              Terms & Conditions
             </Link>
           ),
         },
