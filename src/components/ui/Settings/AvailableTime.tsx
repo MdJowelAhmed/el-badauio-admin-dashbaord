@@ -29,6 +29,13 @@ const AvailableTime = () => {
   const [endTime, setEndTime] = useState(null);
   const [userTimezone, setUserTimezone] = useState("");
 
+  // Round time to nearest 15-minute interval (00, 15, 30, 45)
+  const roundToNearestQuarter = (time: moment.Moment): moment.Moment => {
+    const minutes = time.minute();
+    const roundedMinutes = Math.round(minutes / 15) * 15;
+    return time.clone().minute(roundedMinutes).second(0).millisecond(0);
+  };
+
   // Detect user's timezone
   useEffect(() => {
     const tz = moment.tz.guess();
@@ -40,8 +47,8 @@ const AvailableTime = () => {
     if (!isEditing && data?.data && userTimezone) {
       const start = moment.tz(data.data.startTime, userTimezone);
       const end = moment.tz(data.data.endTime, userTimezone);
-      setStartTime(start as any);
-      setEndTime(end as any);
+      setStartTime(roundToNearestQuarter(start) as any);
+      setEndTime(roundToNearestQuarter(end) as any);
     }
   }, [data, userTimezone, isEditing]);
 
@@ -91,8 +98,8 @@ const AvailableTime = () => {
     if (data?.data) {
       const start = moment.tz(data.data.startTime, userTimezone);
       const end = moment.tz(data.data.endTime, userTimezone);
-      setStartTime(start as any);
-      setEndTime(end as any);
+      setStartTime(roundToNearestQuarter(start) as any);
+      setEndTime(roundToNearestQuarter(end) as any);
     }
     setIsEditing(false);
   };
@@ -197,6 +204,7 @@ const AvailableTime = () => {
                   format="HH:mm"
                   size="large"
                   style={{ width: "100%" }}
+                  minuteStep={15}
                 />
               </div>
 
@@ -208,6 +216,7 @@ const AvailableTime = () => {
                   format="HH:mm"
                   size="large"
                   style={{ width: "100%" }}
+                  minuteStep={15}
                 />
               </div>
             </div>
