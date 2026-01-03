@@ -153,7 +153,7 @@ const ViewExtraServices = ({ open, onClose, categoryId }: Props) => {
         key: "priceModifierValue",
         render: (value: number, opt: Option) => (
           <span>
-            {value} {opt.priceModifierType === "PERCENTAGE" ? "%" : "$"}
+            {value} {opt.priceModifierType === "PERCENTAGE" ? "%" : "€"}
           </span>
         ),
       },
